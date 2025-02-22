@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer’s Detection Pipeline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Alzheimer’s Detection Pipeline</h1>
+        
+        <div class="mri-container">
+            <img src="medical school brain GIF.gif" alt="3D MRI Scan" class="mri-image">
+        </div>
+
+        <div class="pipeline">
+            <div class="step" onclick="showDetails(1)">
+                <h2>Step 1</h2>
+                <p>MRI Image Preprocessing</p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step" onclick="showDetails(2)">
+                <h2>Step 2</h2>
+                <p>Biomarker Extraction</p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step" onclick="showDetails(3)">
+                <h2>Step 3</h2>
+                <p>Feature Fusion</p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step" onclick="showDetails(4)">
+                <h2>Step 4</h2>
+                <p>Model Training & Evaluation</p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step" onclick="showDetails(5)">
+                <h2>Step 5</h2>
+                <p>Prediction & Output</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Modal -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2 id="popup-title">Step Details</h2>
+            <p id="popup-description">Details will appear here upon selecting a step.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
