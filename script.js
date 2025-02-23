@@ -1,40 +1,98 @@
-function showDetails(step) {
+document.addEventListener("DOMContentLoaded", function () {
     const steps = {
         1: {
             title: "MRI Image Preprocessing",
-            description: "In this stage, we take raw brain MRI scans in NIfTI (.nii) format and convert them into standard 2D or 3D images for further analysis. This step also involves intensity normalization, skull stripping (removing non-brain tissues), and resizing images to a fixed dimension for model compatibility."
+            description: [
+                "Convert raw MRI scans (.nii format) to usable image formats.",
+                "Apply skull stripping to remove non-brain tissues.",
+                "Normalize intensity values for consistent pixel ranges.",
+                "Resize images to a fixed size (e.g., 128×128×128) for deep learning models."
+            ]
         },
         2: {
             title: "Biomarker Extraction",
-            description: "Key Alzheimer's disease biomarkers like hippocampal volume and cortical thickness are extracted using FreeSurfer. These biomarkers help in assessing brain atrophy. The extracted values are stored in a CSV file, which will later be combined with MRI features for model training."
+            description: [
+                "Extract hippocampal volume and cortical thickness using FreeSurfer.",
+                "Segment different brain regions to detect atrophy patterns.",
+                "Store extracted biomarkers in a CSV file for further processing."
+            ]
         },
         3: {
             title: "Feature Fusion",
-            description: "At this stage, we integrate extracted numerical biomarkers (from CSV) with deep learning features extracted from MRI images. The combined feature set enhances the model’s ability to detect Alzheimer's by using both structural information and machine-learning-based insights."
+            description: [
+                "Combine MRI-based deep learning features with biomarker data.",
+                "Use CNN/Swin Transformer for extracting imaging features.",
+                "Fuse extracted biomarkers and MRI features into a single dataset.",
+                "Ensure feature scaling and normalization for consistency."
+            ]
         },
         4: {
             title: "Model Training & Evaluation",
-            description: "We use a Hybrid Vision Transformer (HViT), combining Convolutional Neural Networks (CNNs) and Swin Transformers to classify MRI scans into Alzheimer's Disease (AD), Mild Cognitive Impairment (MCI), or a healthy brain. The model is trained on a labeled dataset, using techniques like data augmentation and hyperparameter tuning to improve accuracy."
+            description: [
+                "Train a Hybrid Vision Transformer (HViT) model using Swin Transformer.",
+                "Optimize with hyperparameter tuning to improve accuracy.",
+                "Use data augmentation techniques to prevent overfitting.",
+                "Evaluate model performance with metrics like accuracy, sensitivity, and specificity."
+            ]
         },
         5: {
             title: "Prediction & Output",
-            description: "Once trained, the model is used to predict whether a given MRI scan belongs to a healthy individual, a patient with MCI, or someone with AD. The output includes a probability score for each category, and an explainability module may highlight affected brain regions."
+            description: [
+                "Use the trained model to classify MRI scans as AD, MCI, or Healthy.",
+                "Generate probability scores for each class.",
+                "Create heatmaps to highlight affected brain regions.",
+                "Provide a final diagnosis report with confidence levels."
+            ]
         }
     };
 
-    document.getElementById("popup-title").innerText = steps[step].title;
-    document.getElementById("popup-description").innerText = steps[step].description;
-    document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}
-
-// Close the popup if the user clicks outside of it
-window.onclick = function(event) {
     const popup = document.getElementById("popup");
-    if (event.target === popup) {
-        popup.style.display = "none";
+    const popupTitle = document.getElementById("popup-title");
+    const popupDescription = document.getElementById("popup-description");
+    const closeBtn = document.querySelector(".close");
+
+    function showDetails(step) {
+        popupTitle.innerText = steps[step].title;
+
+        // Clear previous content and add new bullet points
+        popupDescription.innerHTML = "";
+        let ul = document.createElement("ul");
+
+        steps[step].description.forEach(point => {
+            let li = document.createElement("li");
+            li.innerText = point;
+            ul.appendChild(li);
+        });
+
+        popupDescription.appendChild(ul);
+        popup.style.display = "block";
+        setTimeout(() => popup.classList.add("show"), 10);
     }
-}
+
+    function closePopup() {
+        popup.classList.remove("show");
+        setTimeout(() => (popup.style.display = "none"), 300);
+    }
+
+    // Attach event listeners
+    document.querySelectorAll(".step").forEach((stepElement, index) => {
+        stepElement.addEventListener("click", () => showDetails(index + 1));
+    });
+
+    // Close popup when clicking the close button
+    closeBtn.addEventListener("click", closePopup);
+
+    // Close popup when clicking outside of it
+    window.addEventListener("click", function (event) {
+        if (event.target === popup) {
+            closePopup();
+        }
+    });
+
+    // Close popup on "Esc" key press
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closePopup();
+        }
+    });
+});
