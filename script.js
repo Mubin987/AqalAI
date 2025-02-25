@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ]
         },
         4: {
-            title: "Model Training & Evaluation",
+            title: "Model Training and Evaluation",
             description: [
                 "Train a Hybrid Vision Transformer (HViT) model using Swin Transformer.",
                 "Optimize with hyperparameter tuning to improve accuracy.",
